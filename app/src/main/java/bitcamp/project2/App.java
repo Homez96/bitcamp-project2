@@ -15,13 +15,11 @@ public class App {
     CategoryCommand categoryCommand = new CategoryCommand();
     ToDoCommand toDoCommand = new ToDoCommand();
 
-
-    String[] mainMenus = new String[]{"할 일", "카테고리", "단계", "완료 항목", "종료"};
+    String[] mainMenus = new String[]{"할 일", "카테고리", "단계", "종료"};
     String[][] subMenus = {
+        {"등록", "목록", "조회", "변경", "삭제", "완료 항목"},
         {"등록", "목록", "조회", "변경", "삭제"},
         {"등록", "목록", "조회", "변경", "삭제"},
-        {"등록", "목록", "조회", "변경", "삭제"},
-        {"이번달 조회", "월별 조회", "연도별 조회", "카테고리별 조회"}
     };
 
     public static void main(String[] args) {
@@ -124,8 +122,6 @@ public class App {
                             categoryCommand.executeCategoryCommand(subMenuTitle);
                             break;
                         case "단계":
-                            break;
-                        case "완료 항목":
                             break;
                         default:
                             System.out.printf("%s 메뉴의 명령을 처리할 수 없습니다.\n", menuTitle);
