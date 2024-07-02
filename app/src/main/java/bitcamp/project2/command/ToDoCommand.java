@@ -72,22 +72,26 @@ public class ToDoCommand {
   }
 
   private void listToDo() {
-    System.out.println("번호\t항목명\t\t\t메모\t\t작성일");
-    for (Object obj : currentToDoList.toArray()) {
-      ToDo toDo = (ToDo) obj;
-      System.out.printf("%d\t\t%s\t\t%s\t\t%tY-%4$tm-%4$td\n",
-          toDo.getNo(), toDo.getTitle(), toDo.getMemo(), toDo.getCreatedDate());
-    }
 
-    int toDoNo = Prompt.inputInt("완료 항목?");
-    ToDo toDo = (ToDo) currentToDoList.get(currentToDoList.indexOf(new ToDo(toDoNo)));
-    if (toDo == null) {
-      System.out.println("없는 항목입니다.");
-      return;
+    while (true) {
+      viewList();
+      int toDoNo = Prompt.inputInt("체크 상태를 변경할 번호(0 이전)?");
+      if (toDoNo == 0) {
+        break;
+      }
+      ToDo toDo = (ToDo) currentToDoList.get(currentToDoList.indexOf(new ToDo(toDoNo)));
+      if (toDo == null) {
+        System.out.println("없는 항목입니다.");
+        return;
+      }
+      toggleToDo(toDo);
+      if (toDo.getComplete()) {
+        completeToDoList.add(toDo);
+        System.out.printf("'%s' 완료\n", toDo.getTitle());
+      } else {
+        System.out.printf("'%s' 완료 해제\n", toDo.getTitle());
+      }
     }
-    toDo.setComplete(true);
-    completeToDoList.add(toDo);
-    System.out.printf("'%s' 완료\n", toDo.getTitle());
   }
 
   private void addToDo() {
@@ -99,6 +103,28 @@ public class ToDoCommand {
 
     currentToDoList.add(toDo);
   }
+
+  public void toggleToDo(ToDo toDo) {
+    toDo.setComplete(!toDo.getComplete());
+  }
+
+  public void viewList() {
+    System.out.println();
+    System.out.println("번호\t[V]\t\t항목명\t\t메모\t\t작성일");
+    System.out.println("----------------------------------------");
+    String complete;
+    for (Object obj : currentToDoList.toArray()) {
+      ToDo toDo = (ToDo) obj;
+      if (toDo.getComplete()) {
+        complete = "[V]";
+      } else {
+        complete = "[ ]";
+      }
+      System.out.printf("%d.\t\t%s\t\t%s\t\t\t%s\t\t%tY-%5$tm-%5$td\n",
+          toDo.getNo(), complete, toDo.getTitle(), toDo.getMemo(), toDo.getCreatedDate());
+    }
+  }
+
 
   public LinkedList getCurrentToDoList() {
     return this.currentToDoList;
