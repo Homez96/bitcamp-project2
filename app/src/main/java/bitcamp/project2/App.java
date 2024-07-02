@@ -42,7 +42,7 @@ public class App {
 
                 } else {
                     int menuNo = Integer.parseInt(command);
-                    String menuTitle = getMenuTitle(menuNo, mainMenus); // 설명하는 변수
+                    String menuTitle = getMenuTitle(menuNo, mainMenus);
                     if (menuTitle == null) {
                         System.out.println("유효한 메뉴 번호가 아닙니다.");
                     } else if (menuTitle.equals("종료")) {
@@ -66,7 +66,7 @@ public class App {
         String redAnsi = "\033[31m";
         String resetAnsi = "\033[0m";
 
-        String appTitle = "[가계부]";
+        String appTitle = "[To Do List]";
         String line = "----------------------------------";
 
         System.out.println(boldAnsi + line + resetAnsi);
@@ -106,7 +106,7 @@ public class App {
             if (command.equals("menu")) {
                 printSubMenu(menuTitle, menus);
                 continue;
-            } else if (command.equals("9")) { // 이전 메뉴 선택
+            } else if (command.equals("9")) {
                 break;
             }
 
@@ -121,13 +121,11 @@ public class App {
                             toDoCommand.executeToDoCommand(subMenuTitle);
                             break;
                         case "카테고리":
-                            //expenseCommand.executeExpenseCommand(subMenuTitle);
+                            categoryCommand.executeCategoryCommand(subMenuTitle);
                             break;
                         case "단계":
-                            //statisticsCommand.executeExpenseCommand(subMenuTitle);
                             break;
                         case "완료 항목":
-                            categoryCommand.executeCategoryCommand(subMenuTitle);
                             break;
                         default:
                             System.out.printf("%s 메뉴의 명령을 처리할 수 없습니다.\n", menuTitle);
@@ -138,4 +136,5 @@ public class App {
             }
         }
     }
+
 }

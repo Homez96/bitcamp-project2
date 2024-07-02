@@ -9,7 +9,6 @@ public class CategoryCommand {
 
   LinkedList categoryList = new LinkedList();
 
-
   public void executeCategoryCommand(String command) {
     Highlight.menuHighlight(command, "blue");
     switch (command) {
@@ -33,8 +32,7 @@ public class CategoryCommand {
 
   private void deleteCategory() {
     int categoryNo = Prompt.inputInt("카테고리 번호?");
-    Category deletedCategory = (Category) categoryList.get(categoryList.indexOf(new Category(
-        categoryNo)));
+    Category deletedCategory = (Category) categoryList.get(categoryList.indexOf(new Category(categoryNo)));
     if (deletedCategory != null) {
       categoryList.remove(categoryList.indexOf(deletedCategory));
       System.out.printf("%d번 카테고리을 삭제 했습니다.\n", deletedCategory.getNo());
@@ -66,7 +64,6 @@ public class CategoryCommand {
 
     System.out.printf("카테고리명 : %s\n", category.getTitle());
     System.out.printf("수입/지출 : %s\n", category.getTransactionType());
-
   }
 
   private void listCategory() {
@@ -74,7 +71,7 @@ public class CategoryCommand {
     for (Object obj : categoryList.toArray()) {
       Category category = (Category) obj;
       System.out.printf("%d\t\t%s\t\t%s\n",
-          category.getNo(), category.getTitle(), category.getTransactionType());
+              category.getNo(), category.getTitle(), category.getTransactionType());
     }
   }
 
@@ -84,7 +81,14 @@ public class CategoryCommand {
     category.setNo(Category.getNextSeqNo());
     category.setTransactionType(Prompt.input("수입/지출?"));
 
+    System.out.println("Adding category: " + category); // 디버깅 출력
     categoryList.add(category);
+
+    // 디버깅을 위한 리스트 출력
+    for (Object obj : categoryList.toArray()) {
+      Category c = (Category) obj;
+      System.out.printf("카테고리: %d, %s, %s\n", c.getNo(), c.getTitle(), c.getTransactionType());
+    }
   }
 
   public LinkedList getIncomeCategoryList() {
@@ -114,6 +118,4 @@ public class CategoryCommand {
   public LinkedList getCategoryList() {
     return this.categoryList;
   }
-
-
 }

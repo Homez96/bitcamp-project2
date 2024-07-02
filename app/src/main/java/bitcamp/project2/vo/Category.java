@@ -4,12 +4,11 @@ import java.util.Objects;
 
 public class Category {
 
-    private static int seqNo = 4;
+    private static int seqNo = 0; // 초기값을 0으로 변경
 
     private int no;
     private String title;
     private String transactionType;
-
 
     public Category() {
 
@@ -46,7 +45,6 @@ public class Category {
         return Objects.hashCode(no);
     }
 
-
     public int getNo() {
         return no;
     }
@@ -63,13 +61,11 @@ public class Category {
         this.title = title;
     }
 
-  public String getTransactionType() {
-    return transactionType;
-  }
+    public String getTransactionType() {
+        return transactionType;
+    }
 
-  public void setTransactionType(String transactionType) {
-    this.transactionType = transactionType;
-  }
-
-
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
 }
