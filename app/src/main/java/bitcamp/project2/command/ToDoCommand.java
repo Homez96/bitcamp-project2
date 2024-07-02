@@ -60,7 +60,6 @@ public class ToDoCommand {
 
     toDo.setTitle(Prompt.input("항목명(%s)?", toDo.getTitle()));
     toDo.setMemo(Prompt.input("메모(%s)?", toDo.getMemo()));
-    toDo.setLevel(Prompt.input("중요도(%s)?", toDo.getLevel()));
     System.out.println("변경했습니다.");
   }
 
@@ -74,7 +73,6 @@ public class ToDoCommand {
 
     System.out.printf("항목명: %s\n", toDo.getTitle());
     System.out.printf("메모: %s\n", toDo.getMemo());
-    System.out.printf("중요도: %s\n", toDo.getLevel());
     System.out.printf("작성일: %1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS\n", toDo.getCreatedDate());
   }
 
@@ -156,17 +154,6 @@ public class ToDoCommand {
     toDo.setNo(ToDo.getNextSeqNo());
     toDo.setMemo(Prompt.input("메모?"));
 
-    while (true) {
-      String levelInput = Prompt.input("중요도 (★ 1-5개)?");
-      if (levelInput.matches("[1-5]")) {
-        toDo.setLevel(levelInput);
-        break;
-      } else {
-        System.out.println("1에서 5 사이의 숫자로 입력하세요.");
-      }
-    }
-
-
     toDo.setCreatedDate(new Date());
 
     currentToDoList.add(toDo);
@@ -193,10 +180,8 @@ public class ToDoCommand {
       } else {
         complete = "[ ]";
       }
-      // 중요도를 별표로 변환하여 출력
-      String stars = "★".repeat(Integer.parseInt(toDo.getLevel()));
-      System.out.printf("%d.\t\t%s\t\t%s\t\t%s\t\t%s\t\t%tY-%5$tm-%5$td\n",
-              toDo.getNo(), complete, toDo.getTitle(), toDo.getMemo(), stars, toDo.getCreatedDate());
+      System.out.printf("%d.\t\t%s\t\t%s\t\t%s\t\t%tY-%5$tm-%5$td\n",
+              toDo.getNo(), complete, toDo.getTitle(), toDo.getMemo(), toDo.getCreatedDate());
     }
     System.out.println();
   }
