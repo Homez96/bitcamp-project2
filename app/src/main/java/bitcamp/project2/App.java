@@ -4,14 +4,19 @@
 package bitcamp.project2;
 
 import bitcamp.project2.command.CategoryCommand;
+import bitcamp.project2.command.ToDoCommand;
 import bitcamp.project2.util.Highlight;
 import bitcamp.project2.util.Prompt;
 import bitcamp.project2.vo.Category;
+import bitcamp.project2.vo.ToDo;
 
 public class App {
-    CategoryCommand categoryCommand = new CategoryCommand();
 
-    String[] mainMenus = new String[]{"수입", "지출", "카테고리", "조회", "종료"};
+    CategoryCommand categoryCommand = new CategoryCommand();
+    ToDoCommand toDoCommand = new ToDoCommand();
+
+
+    String[] mainMenus = new String[]{"할 일", "카테고리", "단계", "완료 항목", "종료"};
     String[][] subMenus = {
         {"등록", "목록", "조회", "변경", "삭제"},
         {"등록", "목록", "조회", "변경", "삭제"},
@@ -112,16 +117,16 @@ public class App {
                     System.out.println("유효한 메뉴 번호가 아닙니다.");
                 } else {
                     switch (menuTitle) {
-                        case "수입":
-                            //incomeCommand.executeIncomeCommand(subMenuTitle);
-                            break;
-                        case "지출":
-                            //expenseCommand.executeExpenseCommand(subMenuTitle);
-                            break;
-                        case "조회":
-                            //statisticsCommand.executeExpenseCommand(subMenuTitle);
+                        case "할 일":
+                            toDoCommand.executeToDoCommand(subMenuTitle);
                             break;
                         case "카테고리":
+                            //expenseCommand.executeExpenseCommand(subMenuTitle);
+                            break;
+                        case "단계":
+                            //statisticsCommand.executeExpenseCommand(subMenuTitle);
+                            break;
+                        case "완료 항목":
                             categoryCommand.executeCategoryCommand(subMenuTitle);
                             break;
                         default:
