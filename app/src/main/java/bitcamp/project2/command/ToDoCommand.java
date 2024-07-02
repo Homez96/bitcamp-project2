@@ -109,12 +109,19 @@ public class ToDoCommand {
   }
 
   public void viewList() {
+    System.out.println();
     System.out.println("번호\t[V]\t\t항목명\t\t메모\t\t작성일");
     System.out.println("----------------------------------------");
+    String complete;
     for (Object obj : currentToDoList.toArray()) {
       ToDo toDo = (ToDo) obj;
-      System.out.printf("%d.\t\t%b\t\t%s\t\t\t%s\t\t%tY-%5$tm-%5$td\n",
-          toDo.getNo(), toDo.getComplete(), toDo.getTitle(), toDo.getMemo(), toDo.getCreatedDate());
+      if (toDo.getComplete()) {
+        complete = "[V]";
+      } else {
+        complete = "[ ]";
+      }
+      System.out.printf("%d.\t\t%s\t\t%s\t\t\t%s\t\t%tY-%5$tm-%5$td\n",
+          toDo.getNo(), complete, toDo.getTitle(), toDo.getMemo(), toDo.getCreatedDate());
     }
   }
 
