@@ -13,6 +13,7 @@ public class ToDo {
   private String memo;
   private String level;
   private String category;
+  private boolean complete;
 
   public ToDo() {
 
@@ -42,6 +43,14 @@ public class ToDo {
 
   public static int getNextSeqNo() {
     return ++seqNo;
+  }
+
+  public boolean getComplete() {
+    return complete;
+  }
+
+  public void setComplete(boolean complete) {
+    this.complete = complete;
   }
 
   public int getNo() {

@@ -5,9 +5,12 @@ import bitcamp.project2.util.LinkedList;
 import bitcamp.project2.util.Prompt;
 import bitcamp.project2.vo.ToDo;
 
+import java.util.Date;
+
 public class ToDoCommand {
 
-  LinkedList toDoList = new LinkedList();
+  LinkedList currentToDoList = new LinkedList();
+  LinkedList completeToDoList = new LinkedList();
 
 
   public void executeToDoCommand(String command) {
@@ -33,9 +36,9 @@ public class ToDoCommand {
 
   private void deleteToDo() {
     int toDoNo = Prompt.inputInt("삭제할 항목?");
-    ToDo deletedToDo = (ToDo) toDoList.get(toDoList.indexOf(new ToDo(toDoNo)));
+    ToDo deletedToDo = (ToDo) currentToDoList.get(currentToDoList.indexOf(new ToDo(toDoNo)));
     if (deletedToDo != null) {
-      toDoList.remove(toDoList.indexOf(deletedToDo));
+      currentToDoList.remove(currentToDoList.indexOf(deletedToDo));
       System.out.printf("%d번 카테고리을 삭제 했습니다.\n", deletedToDo.getNo());
     } else {
       System.out.println("없는 카테고리입니다.");
@@ -44,7 +47,7 @@ public class ToDoCommand {
 
   private void updateToDo() {
     int toDoNo = Prompt.inputInt("변경할 항목?");
-    ToDo toDo = (ToDo) toDoList.get(toDoList.indexOf(new ToDo(toDoNo)));
+    ToDo toDo = (ToDo) currentToDoList.get(currentToDoList.indexOf(new ToDo(toDoNo)));
     if (toDo == null) {
       System.out.println("없는 항목입니다.");
       return;
@@ -57,7 +60,7 @@ public class ToDoCommand {
 
   private void viewToDo() {
     int toDoNo = Prompt.inputInt("조회할 항목?");
-    ToDo toDo = (ToDo) toDoList.get(toDoList.indexOf(new ToDo(toDoNo)));
+    ToDo toDo = (ToDo) currentToDoList.get(currentToDoList.indexOf(new ToDo(toDoNo)));
     if (toDo == null) {
       System.out.println("없는 항목입니다.");
       return;
@@ -65,15 +68,26 @@ public class ToDoCommand {
 
     System.out.printf("항목명 : %s\n", toDo.getTitle());
     System.out.printf("메모 : %s\n", toDo.getMemo());
+    System.out.printf("작성일: %1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS\n", toDo.getCreatedDate());
   }
 
   private void listToDo() {
-    System.out.println("번호\t항목명\t\t\t메모");
-    for (Object obj : toDoList.toArray()) {
+    System.out.println("번호\t항목명\t\t\t메모\t\t작성일");
+    for (Object obj : currentToDoList.toArray()) {
       ToDo toDo = (ToDo) obj;
-      System.out.printf("%d\t\t%s\t\t%s\n",
-          toDo.getNo(), toDo.getTitle(), toDo.getMemo());
+      System.out.printf("%d\t\t%s\t\t%s\t\t%tY-%4$tm-%4$td\n",
+          toDo.getNo(), toDo.getTitle(), toDo.getMemo(), toDo.getCreatedDate());
     }
+
+    int toDoNo = Prompt.inputInt("완료 항목?");
+    ToDo toDo = (ToDo) currentToDoList.get(currentToDoList.indexOf(new ToDo(toDoNo)));
+    if (toDo == null) {
+      System.out.println("없는 항목입니다.");
+      return;
+    }
+    toDo.setComplete(true);
+    completeToDoList.add(toDo);
+    System.out.printf("'%s' 완료\n", toDo.getTitle());
   }
 
   private void addToDo() {
@@ -81,12 +95,18 @@ public class ToDoCommand {
     toDo.setTitle(Prompt.input("항목명?"));
     toDo.setNo(ToDo.getNextSeqNo());
     toDo.setMemo(Prompt.input("메모?"));
+    toDo.setCreatedDate(new Date());
 
-    toDoList.add(toDo);
+    currentToDoList.add(toDo);
   }
 
-  public LinkedList getToDoList() {
-    return this.toDoList;
+  public LinkedList getCurrentToDoList() {
+    return this.currentToDoList;
   }
+
+  public LinkedList getCompleteToDoList() {
+    return this.completeToDoList;
+  }
+
 
 }
