@@ -81,7 +81,6 @@ public class CategoryCommand {
     category.setNo(Category.getNextSeqNo());
     category.setTransactionType(Prompt.input("수입/지출?"));
 
-    System.out.println("Adding category: " + category); // 디버깅 출력
     categoryList.add(category);
 
     // 디버깅을 위한 리스트 출력
@@ -90,6 +89,7 @@ public class CategoryCommand {
       System.out.printf("카테고리: %d, %s, %s\n", c.getNo(), c.getTitle(), c.getTransactionType());
     }
   }
+
 
   public LinkedList getIncomeCategoryList() {
     LinkedList incomeCategoryList = new LinkedList();

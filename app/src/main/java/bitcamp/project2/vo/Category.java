@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Category {
 
-    private static int seqNo = 0; // 초기값을 0으로 변경
+    private static int seqNo = 0;
 
     private int no;
     private String title;
@@ -43,6 +43,11 @@ public class Category {
     @Override
     public int hashCode() {
         return Objects.hashCode(no);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Category{no=%d, title='%s', transactionType='%s'}", no, title, transactionType);
     }
 
     public int getNo() {
