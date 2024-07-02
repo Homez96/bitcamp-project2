@@ -50,7 +50,7 @@ public class CategoryCommand {
     }
 
     category.setTitle(Prompt.input("카테고리명(%s)?", category.getTitle()));
-    category.setTransactionType(Prompt.input("수입/지출(%s)?", category.getTransactionType()));
+    category.setTransactionType(Prompt.input("메모(%s)?", category.getTransactionType()));
     System.out.println("변경 했습니다.");
   }
 
@@ -63,11 +63,11 @@ public class CategoryCommand {
     }
 
     System.out.printf("카테고리명 : %s\n", category.getTitle());
-    System.out.printf("수입/지출 : %s\n", category.getTransactionType());
+    System.out.printf("메모 : %s\n", category.getTransactionType());
   }
 
   private void listCategory() {
-    System.out.println("번호\t카테고리명\t수입/지출");
+    System.out.println("번호\t카테고리명\t메모");
     for (Object obj : categoryList.toArray()) {
       Category category = (Category) obj;
       System.out.printf("%d\t\t%s\t\t%s\n",
@@ -79,7 +79,7 @@ public class CategoryCommand {
     Category category = new Category();
     category.setTitle(Prompt.input("카테고리명?"));
     category.setNo(Category.getNextSeqNo());
-    category.setTransactionType(Prompt.input("수입/지출?"));
+    category.setTransactionType(Prompt.input("메모?"));
 
     categoryList.add(category);
 
