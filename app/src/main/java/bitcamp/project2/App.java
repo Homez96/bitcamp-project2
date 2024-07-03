@@ -17,7 +17,7 @@ public class App {
     ToDoCommand toDoCommand = new ToDoCommand();
     LevelCommand levelCommand = new LevelCommand();
 
-    String[] mainMenus = new String[]{"할 일", "카테고리", "레벨4" +
+    String[] mainMenus = new String[]{"할 일", "카테고리", "레벨" +
             "", "종료"};
     String[][] subMenus = {
         {"등록", "목록", "조회", "변경", "삭제", "완료 항목"},
@@ -125,6 +125,7 @@ public class App {
                             categoryCommand.executeCategoryCommand(subMenuTitle);
                             break;
                         case "레벨":
+                            levelCommand.executeLevelCommand(subMenuTitle);
                             break;
                         default:
                             System.out.printf("%s 메뉴의 명령을 처리할 수 없습니다.\n", menuTitle);
