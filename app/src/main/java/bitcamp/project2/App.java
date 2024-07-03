@@ -64,32 +64,40 @@ public class App {
 
     void printMenu() {
         String boldAnsi = "\033[1m";
-        String redAnsi = "\033[31m";
         String resetAnsi = "\033[0m";
+        String blackAnsi = "\033[30m";    // 검정색 ANSI 이스케이프 코드
+        String purpleAnsi = "\033[35m";   // 보라색 ANSI 이스케이프 코드
+        String yellowAnsi = "\033[33m";   // 노란색 ANSI 이스케이프 코드
 
         String appTitle = "[To Do List]";
-        String line = "----------------------------------";
+        String line = "--------------------------------------------";
 
         System.out.println(boldAnsi + line + resetAnsi);
         System.out.println(boldAnsi + appTitle + resetAnsi);
 
         for (int i = 0; i < mainMenus.length; i++) {
-            if (mainMenus[i].equals("종료")) {
-                System.out.printf("%s%d. %s%s\n", (boldAnsi + redAnsi), (i + 1), mainMenus[i], resetAnsi);
+            if (mainMenus[i].equals("할 일")) {
+                System.out.printf("%s%d. %s%s   ", (boldAnsi + blackAnsi), (i + 1), mainMenus[i], resetAnsi);
+            } else if (mainMenus[i].equals("카테고리")) {
+                System.out.printf("%s%d. %s%s   ", (boldAnsi + purpleAnsi), (i + 1), mainMenus[i], resetAnsi);
+            } else if (mainMenus[i].equals("레벨")) {
+                System.out.printf("%s%d. %s%s   ", (boldAnsi + yellowAnsi), (i + 1), mainMenus[i], resetAnsi);
             } else {
-                System.out.printf("%d. %s\n", (i + 1), mainMenus[i]);
+                System.out.printf("%d. %s   ", (i + 1), mainMenus[i]);
             }
         }
 
-        System.out.println(boldAnsi + line + resetAnsi);
+        System.out.println("\n" + boldAnsi + line + resetAnsi);
     }
+
+
 
     void printSubMenu(String menuTitle, String[] menus) {
         Highlight.menuHighlight(menuTitle, "yellow");
         for (int i = 0; i < menus.length; i++) {
-            System.out.printf("%d. %s\n", (i + 1), menus[i]);
+            System.out.printf("%d. %s   ", (i + 1), menus[i]);
         }
-        System.out.println("9. 이전");
+        System.out.println("\n9. 이전");
     }
 
     boolean isValidateMenu(int menuNo, String[] menus) {
