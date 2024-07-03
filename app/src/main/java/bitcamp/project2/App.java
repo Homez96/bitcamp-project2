@@ -59,29 +59,23 @@ public class App {
     void printMenu() {
         String boldAnsi = "\033[1m";
         String resetAnsi = "\033[0m";
-        String blackAnsi = "\033[30m";    // 검정색 ANSI 이스케이프 코드
-        String purpleAnsi = "\033[35m";   // 보라색 ANSI 이스케이프 코드
-        String yellowAnsi = "\033[33m";   // 노란색 ANSI 이스케이프 코드
 
         String appTitle = "[To Do List]";
-        String line = "--------------------------------------------";
+        String line = "--------------------------";
 
-        System.out.println(boldAnsi + line + resetAnsi);
-        System.out.println(boldAnsi + appTitle + resetAnsi);
+        System.out.println("┌───────────────────────────────────────────────┐");
+        System.out.println("│               [To Do List]                    │");
+        System.out.println("└───────────────────────────────────────────────┘");
 
         for (int i = 0; i < mainMenus.length; i++) {
             if (mainMenus[i].equals("할 일")) {
-                System.out.printf("%s%d. %s%s   ", (boldAnsi + blackAnsi), (i + 1), mainMenus[i], resetAnsi);
-            } else if (mainMenus[i].equals("카테고리")) {
-                System.out.printf("%s%d. %s%s   ", (boldAnsi + purpleAnsi), (i + 1), mainMenus[i], resetAnsi);
-            } else if (mainMenus[i].equals("레벨")) {
-                System.out.printf("%s%d. %s%s   ", (boldAnsi + yellowAnsi), (i + 1), mainMenus[i], resetAnsi);
+                System.out.printf("%d. %s\n", (i + 1), mainMenus[i]);
             } else {
-                System.out.printf("%d. %s   ", (i + 1), mainMenus[i]);
+                System.out.printf("%d. %s\n", (i + 1), mainMenus[i]);
             }
         }
 
-        System.out.println("\n" + boldAnsi + line + resetAnsi);
+        System.out.println(boldAnsi + line + resetAnsi);
     }
 
 
