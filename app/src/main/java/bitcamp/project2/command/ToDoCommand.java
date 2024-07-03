@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class ToDoCommand {
 
-  LinkedList currentToDoList = new LinkedList();
+  LinkedList allToDoList = new LinkedList();
   LinkedList completeToDoList = new LinkedList();
 
 
@@ -25,7 +25,7 @@ public class ToDoCommand {
         this.viewToDo();
         break;
       case "목록":
-        this.listToDo();
+        this.choice();
         break;
       case "변경":
         this.updateToDo();
@@ -41,9 +41,9 @@ public class ToDoCommand {
 
   private void deleteToDo() {
     int toDoNo = Prompt.inputInt("삭제할 항목?");
-    ToDo deletedToDo = (ToDo) currentToDoList.get(currentToDoList.indexOf(new ToDo(toDoNo)));
+    ToDo deletedToDo = (ToDo) allToDoList.get(allToDoList.indexOf(new ToDo(toDoNo)));
     if (deletedToDo != null) {
-      currentToDoList.remove(currentToDoList.indexOf(deletedToDo));
+      allToDoList.remove(allToDoList.indexOf(deletedToDo));
       System.out.printf("%d번 할 일을 삭제했습니다.\n", deletedToDo.getNo());
     } else {
       System.out.println("없는 항목입니다.");
@@ -52,7 +52,7 @@ public class ToDoCommand {
 
   private void updateToDo() {
     int toDoNo = Prompt.inputInt("변경할 항목?");
-    ToDo toDo = (ToDo) currentToDoList.get(currentToDoList.indexOf(new ToDo(toDoNo)));
+    ToDo toDo = (ToDo) allToDoList.get(allToDoList.indexOf(new ToDo(toDoNo)));
     if (toDo == null) {
       System.out.println("없는 항목입니다.");
       return;
@@ -65,7 +65,7 @@ public class ToDoCommand {
 
   private void viewToDo() {
     int toDoNo = Prompt.inputInt("조회할 항목?");
-    ToDo toDo = (ToDo) currentToDoList.get(currentToDoList.indexOf(new ToDo(toDoNo)));
+    ToDo toDo = (ToDo) allToDoList.get(allToDoList.indexOf(new ToDo(toDoNo)));
     if (toDo == null) {
       System.out.println("없는 항목입니다.");
       return;
@@ -76,10 +76,20 @@ public class ToDoCommand {
     System.out.printf("작성일: %1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS\n", toDo.getCreatedDate());
   }
 
-  private void listToDo() {
+  private void choice() {
+    String answer = Prompt.input("완료 목록 보시겠습니까?");
+    if (answer.equalsIgnoreCase("y")) {
+      listToDo(allToDoList);
+    } else {
+      listToDo(getCurrentList(allToDoList));
+    }
+  }
+
+
+  private void listToDo(LinkedList allToDoList) {
 
     while (true) {
-      viewList(currentToDoList);
+      viewList(allToDoList);
 
       String command = Prompt.input("체크 상태를 변경할 번호(0:이전 / C:달력)?");
       if (command.equalsIgnoreCase("C")) {
@@ -90,30 +100,43 @@ public class ToDoCommand {
       }
 
       try {
-          int toDoNo = Integer.parseInt(command);
-          ToDo toDo = (ToDo) currentToDoList.get(currentToDoList.indexOf(new ToDo(toDoNo)));
-          if (toDo == null) {
-            System.out.println("없는 항목입니다.");
-            return;
-          }
-          toggleToDo(toDo);
-          if (isChecked(toDo)) {
-            completeToDoList.add(toDo);
-            currentToDoList.remove(currentToDoList.indexOf(toDo));
-            System.out.printf("'%s' 완료\n", toDo.getTitle());
-          } else {
-            System.out.printf("'%s' 완료 해제\n", toDo.getTitle());
-          }
+        int toDoNo = Integer.parseInt(command);
+        ToDo toDo = (ToDo) this.allToDoList.get(this.allToDoList.indexOf(new ToDo(toDoNo)));
+        if (toDo == null) {
+          System.out.println("없는 항목입니다.");
+          return;
+        }
+        toggleToDo(toDo);
+        if (isChecked(toDo)) {
+          completeToDoList.add(toDo);
+          System.out.printf("'%s' 완료\n", toDo.getTitle());
+        } else {
+          completeToDoList.remove(completeToDoList.indexOf(toDo));
+          System.out.printf("'%s' 완료 해제\n", toDo.getTitle());
+        }
 
       } catch (NumberFormatException ex) {
         System.out.println("숫자로 항목 번호를 입력하세요.");
       }
-
     }
+
   }
 
-  public void completedListToDo() {
 
+
+  public LinkedList getCurrentList(LinkedList allToDoList) {
+    LinkedList currentList = new LinkedList();
+    for (int i = 0; i < allToDoList.size(); i++) {
+      ToDo todo = (ToDo) allToDoList.get(i);
+      if (!todo.getComplete()) {
+        currentList.add(allToDoList.get(i));
+      }
+    }
+    return currentList;
+  }
+
+
+  public void completedListToDo() {
     while (true) {
       viewList(completeToDoList);
 
@@ -134,7 +157,6 @@ public class ToDoCommand {
         }
         toggleToDo(toDo);
         if (!toDo.getComplete()) {
-          currentToDoList.add(toDo);
           completeToDoList.remove(completeToDoList.indexOf(toDo));
           System.out.printf("'%s' 완료 해제\n", toDo.getTitle());
         } else {
@@ -144,7 +166,6 @@ public class ToDoCommand {
       } catch (NumberFormatException ex) {
         System.out.println("숫자로 항목 번호를 입력하세요.");
       }
-
     }
   }
 
@@ -156,7 +177,7 @@ public class ToDoCommand {
 
     toDo.setCreatedDate(new Date());
 
-    currentToDoList.add(toDo);
+    allToDoList.add(toDo);
     System.out.println("할 일이 등록되었습니다.");
   }
 
@@ -168,27 +189,8 @@ public class ToDoCommand {
     toDo.setComplete(!toDo.getComplete());
   }
 
-  public void viewList(LinkedList toDoList) {
-    System.out.println();
-    System.out.println("번호\t[V]\t\t항목명\t\t메모\t\t중요도\t\t작성일");
-    System.out.println("----------------------------------------");
-    String complete;
-    for (Object obj : toDoList.toArray()) {
-      ToDo toDo = (ToDo) obj;
-      if (toDo.getComplete()) {
-        complete = "[V]";
-      } else {
-        complete = "[ ]";
-      }
-      System.out.printf("%d.\t\t%s\t\t%s\t\t%s\t\t%tY-%5$tm-%5$td\n",
-              toDo.getNo(), complete, toDo.getTitle(), toDo.getMemo(), toDo.getCreatedDate());
-    }
-    System.out.println();
-  }
-
-
-  public LinkedList getCurrentToDoList() {
-    return this.currentToDoList;
+  public LinkedList getAllToDoList() {
+    return this.allToDoList;
   }
 
   public LinkedList getCompleteToDoList() {
@@ -236,6 +238,35 @@ public class ToDoCommand {
       System.out.println();
     }
   }
+
+  public void viewList(LinkedList toDoList) {
+    String boldAnsi = "\033[1m";
+    String redAnsi = "\033[31m";
+    String blueAnsi = "\033[34m";
+    String yellowAnsi = "\033[33m";
+    String pinkAnsi = "\033[35m";
+
+    String resetAnsi = "\033[0m";
+
+    System.out.println(yellowAnsi + "┌──────┬─────┬──────────────────────┬──────────────────────┬────────────┬────────────┬────────────┐" + resetAnsi);
+    System.out.println(yellowAnsi + "│ 번호 │ [V] │        항목명        │         메모         │  카테고리  │   증요도   │   작성일   │"+ resetAnsi);
+    System.out.println(yellowAnsi + "└──────┴─────┴──────────────────────┴──────────────────────┴────────────┴────────────┴────────────┘"+ resetAnsi);
+    String complete;
+    for (Object obj : toDoList.toArray()) {
+      ToDo toDo = (ToDo) obj;
+      if (toDo.getComplete()) {
+        complete = "[V]";
+      } else {
+        complete = "[ ]";
+      }
+      System.out.printf("\033[33m│\033[0m %-4d \033[33m│\033[0m %-4s\033[33m│\033[0m %-20s \033[33m│\033[0m %-20s \033[33m│\033[0m %-6s \033[33m│\033[0m %-7s \033[33m│\033[0m %tY-%7$tm-%7$td \033[33m│\033[0m\n",
+          toDo.getNo(), complete, toDo.getTitle(), toDo.getMemo(), "카테고리","중요도", toDo.getCreatedDate());
+      System.out.println(yellowAnsi + "└──────┴─────┴──────────────────────┴──────────────────────┴────────────┴────────────┴────────────┘"+ resetAnsi);
+      //System.out.println(yellowAnsi + "├──────┼─────┼──────────────────────┼──────────────────────┼────────────┼────────────┼────────────┤"+ resetAnsi);
+    }
+    System.out.println();
+  }
+
 
 
 }

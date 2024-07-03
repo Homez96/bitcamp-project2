@@ -32,7 +32,6 @@ public class App {
     void execute() {
         printMenu();
 
-
         String command;
         while (true) {
             try {
