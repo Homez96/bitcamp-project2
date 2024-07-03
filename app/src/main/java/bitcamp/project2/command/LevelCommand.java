@@ -1,106 +1,121 @@
 package bitcamp.project2.command;
 
+import bitcamp.project2.util.Highlight;
+import bitcamp.project2.util.LinkedList;
+import bitcamp.project2.util.Prompt;
 import bitcamp.project2.vo.Level;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class LevelCommand {
 
-    private List<Level> levels = new ArrayList<>();
-    private int nextId = 1; // 다음 레벨 객체에 할당할 id 값
-    private Scanner scanner = new Scanner(System.in);
+    LinkedList levelList = new LinkedList();
 
     public void executeLevelCommand(String command) {
+        Highlight.menuHighlight(command, "blue");
         switch (command) {
             case "등록":
-                registerLevel();
-                break;
-            case "목록":
-                listLevels();
+                this.addLevel();
                 break;
             case "조회":
-                viewLevel();
+                this.viewLevel();
+                break;
+            case "목록":
+                this.listLevel();
                 break;
             case "변경":
-                updateLevel();
+                this.updateLevel();
                 break;
             case "삭제":
-                deleteLevel();
+                this.deleteLevel();
                 break;
-            default:
-                System.out.println("지원하지 않는 명령입니다.");
-        }
-    }
-
-    private void registerLevel() {
-        System.out.print("레벨 이름을 입력하세요: ");
-        String name = scanner.nextLine();
-
-        Level level = new Level(nextId++, name);
-        levels.add(level);
-        System.out.println("레벨이 등록되었습니다.");
-    }
-
-    private void listLevels() {
-        System.out.println("==== 레벨 목록 ====");
-        for (Level level : levels) {
-            System.out.printf("ID: %d, 이름: %s\n", level.getId(), level.getName());
-        }
-    }
-
-    private void viewLevel() {
-        System.out.print("조회할 레벨 ID를 입력하세요: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // 버퍼 비우기
-
-        Level foundLevel = findLevelById(id);
-        if (foundLevel != null) {
-            System.out.printf("ID: %d, 이름: %s\n", foundLevel.getId(), foundLevel.getName());
-        } else {
-            System.out.println("해당 ID의 레벨이 존재하지 않습니다.");
-        }
-    }
-
-    private void updateLevel() {
-        System.out.print("변경할 레벨 ID를 입력하세요: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // 버퍼 비우기
-
-        Level foundLevel = findLevelById(id);
-        if (foundLevel != null) {
-            System.out.printf("현재 이름: %s\n", foundLevel.getName());
-            System.out.print("새로운 이름을 입력하세요: ");
-            String newName = scanner.nextLine();
-
-            foundLevel.setName(newName);
-            System.out.println("레벨 정보가 변경되었습니다.");
-        } else {
-            System.out.println("해당 ID의 레벨이 존재하지 않습니다.");
         }
     }
 
     private void deleteLevel() {
-        System.out.print("삭제할 레벨 ID를 입력하세요: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // 버퍼 비우기
-
-        Level foundLevel = findLevelById(id);
-        if (foundLevel != null) {
-            levels.remove(foundLevel);
-            System.out.println("레벨이 삭제되었습니다.");
+        int levelNo = Prompt.inputInt("레벨 번호?");
+        Level deletedLevel = (Level) levelList.get(levelList.indexOf(new Level(levelNo, "")));
+        if (deletedLevel != null) {
+            levelList.remove(levelList.indexOf(deletedLevel));
+            System.out.printf("%d번 레벨을 삭제 했습니다.\n", deletedLevel.getNo());
         } else {
-            System.out.println("해당 ID의 레벨이 존재하지 않습니다.");
+            System.out.println("없는 레벨입니다.");
         }
     }
 
-    private Level findLevelById(int id) {
-        for (Level level : levels) {
-            if (level.getId() == id) {
-                return level;
+
+    private void updateLevel() {
+        int levelNo = Prompt.inputInt("레벨 번호?");
+        Level level = (Level) levelList.get(levelList.indexOf(new Level(levelNo, "")));
+        if (level == null) {
+            System.out.println("없는 레벨입니다.");
+            return;
+        }
+
+        level.setTitle(Prompt.input("레벨명(%s)?", level.getTitle()));
+        level.setTransactionType(Prompt.input("메모(%s)?", level.getTransactionType()));
+        System.out.println("변경 했습니다.");
+    }
+
+    private void viewLevel() {
+        int levelNo = Prompt.inputInt("레벨 번호?");
+        Level level = (Level) levelList.get(levelList.indexOf(new Level(levelNo, "")));
+        if (level == null) {
+            System.out.println("없는 레벨입니다.");
+            return;
+        }
+
+        System.out.printf("레벨명 : %s\n", level.getTitle());
+        System.out.printf("메모 : %s\n", level.getTransactionType());
+    }
+
+    private void listLevel() {
+        System.out.println("번호\t레벨명\t메모");
+        for (Object obj : levelList.toArray()) {
+            Level level = (Level) obj;
+            System.out.printf("%d\t\t%s\t\t%s\n",
+                    level.getNo(), level.getTitle(), level.getTransactionType());
+        }
+    }
+
+    private void addLevel() {
+        Level level = new Level();
+        level.setTitle(Prompt.input("레벨명?"));
+        level.setNo(Level.getNextSeqNo());
+        level.setTransactionType(Prompt.input("메모?"));
+
+        levelList.add(level);
+
+        // 디버깅을 위한 리스트 출력
+        for (Object obj : levelList.toArray()) {
+            Level l = (Level) obj;
+            System.out.printf("레벨: %d, %s, %s\n", l.getNo(), l.getTitle(), l.getTransactionType());
+        }
+    }
+
+    public LinkedList getIncomeLevelList() {
+        LinkedList incomeLevelList = new LinkedList();
+
+        for (Object obj : levelList.toArray()) {
+            Level level = (Level) obj;
+            if (level.getTransactionType().equals("수입")) {
+                incomeLevelList.add(level);
             }
         }
-        return null;
+        return incomeLevelList;
+    }
+
+    public LinkedList getExpenseLevelList() {
+        LinkedList expenseLevelList = new LinkedList();
+
+        for (Object obj : levelList.toArray()) {
+            Level level = (Level) obj;
+            if (level.getTransactionType().equals("지출")) {
+                expenseLevelList.add(level);
+            }
+        }
+        return expenseLevelList;
+    }
+
+    public LinkedList getLevelList() {
+        return this.levelList;
     }
 }
