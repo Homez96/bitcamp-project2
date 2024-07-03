@@ -1,6 +1,7 @@
 package bitcamp.project2.vo;
 
 public class Level {
+
     private int id;
     private String name;
 

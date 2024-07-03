@@ -115,4 +115,14 @@ public class LinkedList extends AbstractList {
     }
   }
 
+  // 추가할 메서드: addAll()
+  public void addAll(LinkedList otherList) {
+    Node cursor = otherList.first;
+
+    while (cursor != null) {
+      this.add(cursor.value);
+      cursor = cursor.next;
+    }
+  }
+
 }
