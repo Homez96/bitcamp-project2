@@ -50,7 +50,6 @@ public class CategoryCommand {
     }
 
     category.setTitle(Prompt.input("카테고리명(%s)?", category.getTitle()));
-    category.setTransactionType(Prompt.input("메모(%s)?", category.getTransactionType()));
     System.out.println("변경 했습니다.");
   }
 
@@ -63,15 +62,14 @@ public class CategoryCommand {
     }
 
     System.out.printf("카테고리명 : %s\n", category.getTitle());
-    System.out.printf("메모 : %s\n", category.getTransactionType());
   }
 
   private void listCategory() {
-    System.out.println("번호\t카테고리명\t메모");
+    System.out.println("번호\t카테고리명");
     for (Object obj : categoryList.toArray()) {
       Category category = (Category) obj;
-      System.out.printf("%d\t\t%s\t\t%s\n",
-              category.getNo(), category.getTitle(), category.getTransactionType());
+      System.out.printf("%d\t\t%s\n",
+              category.getNo(), category.getTitle());
     }
   }
 
@@ -79,15 +77,10 @@ public class CategoryCommand {
     Category category = new Category();
     category.setTitle(Prompt.input("카테고리명?"));
     category.setNo(Category.getNextSeqNo());
-    category.setTransactionType(Prompt.input("메모?"));
+
 
     categoryList.add(category);
 
-    // 디버깅을 위한 리스트 출력
-    for (Object obj : categoryList.toArray()) {
-      Category c = (Category) obj;
-      System.out.printf("카테고리: %d, %s, %s\n", c.getNo(), c.getTitle(), c.getTransactionType());
-    }
   }
 
 
@@ -96,7 +89,7 @@ public class CategoryCommand {
 
     for (Object obj : categoryList.toArray()) {
       Category category = (Category) obj;
-      if (category.getTransactionType().equals("수입")) {
+      if (category.equals("수입")) {
         incomeCategoryList.add(category);
       }
     }
@@ -108,7 +101,7 @@ public class CategoryCommand {
 
     for (Object obj : categoryList.toArray()) {
       Category category = (Category) obj;
-      if (category.getTransactionType().equals("지출")) {
+      if (category.equals("지출")) {
         expenseCategoryList.add(category);
       }
     }

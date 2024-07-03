@@ -8,7 +8,7 @@ public class Category {
 
     private int no;
     private String title;
-    private String transactionType;
+
 
     public Category() {
 
@@ -18,10 +18,10 @@ public class Category {
         this.no = no;
     }
 
-    public Category(int no, String title, String transactionType) {
+    public Category(int no, String title) {
         this.no = no;
         this.title = title;
-        this.transactionType = transactionType;
+
     }
 
     public static int getNextSeqNo() {
@@ -45,10 +45,7 @@ public class Category {
         return Objects.hashCode(no);
     }
 
-    @Override
-    public String toString() {
-        return String.format("Category{no=%d, title='%s', transactionType='%s'}", no, title, transactionType);
-    }
+
 
     public int getNo() {
         return no;
@@ -66,11 +63,4 @@ public class Category {
         this.title = title;
     }
 
-    public String getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
-    }
 }
