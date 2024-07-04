@@ -59,22 +59,16 @@ public class App {
     void printMenu() {
         String boldAnsi = "\033[1m";
         String resetAnsi = "\033[0m";
+        String purpleAnsi = "\033[35m";
 
-        String appTitle = "[To Do List]";
-        String line = "--------------------------";
+        String line = boldAnsi + purpleAnsi + "─────────────────────────────────────────────────" + resetAnsi;
 
-        System.out.println("┌───────────────────────────────────────────────┐");
-        System.out.println("│               [To Do List]                    │");
-        System.out.println("└───────────────────────────────────────────────┘");
-
-        System.out.println(boldAnsi + appTitle + resetAnsi);
+        System.out.println(boldAnsi + purpleAnsi + "┌───────────────────────────────────────────────┐" + resetAnsi);
+        System.out.println(boldAnsi + purpleAnsi + "│                  To Do List                   │" + resetAnsi);
+        System.out.println(boldAnsi + purpleAnsi + "└───────────────────────────────────────────────┘" + resetAnsi);
 
         for (int i = 0; i < mainMenus.length; i++) {
-            if (mainMenus[i].equals("할 일")) {
                 System.out.printf("%d. %s\n", (i + 1), mainMenus[i]);
-            } else {
-                System.out.printf("%d. %s\n", (i + 1), mainMenus[i]);
-            }
         }
 
         System.out.println(boldAnsi + line + resetAnsi);
