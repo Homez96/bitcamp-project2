@@ -245,13 +245,14 @@ public class ToDoCommand {
     String blueAnsi = "\033[34m";
     String yellowAnsi = "\033[33m";
     String pinkAnsi = "\033[35m";
+    String greenAnsi = "\033[38;5;2m";
 
 
     String resetAnsi = "\033[0m";
 
-    System.out.println(yellowAnsi + "┌──────┬─────┬──────────────────────┬──────────────────────┬────────────┬────────────┬────────────┐" + resetAnsi);
-    System.out.println(yellowAnsi + "│ 번호 │ [V] │        항목명        │         메모         │  카테고리  │   증요도   │   작성일   │"+ resetAnsi);
-    System.out.println(yellowAnsi + "└──────┴─────┴──────────────────────┴──────────────────────┴────────────┴────────────┴────────────┘"+ resetAnsi);
+    System.out.println(boldAnsi + yellowAnsi + "┌──────┬─────┬──────────────────────┬──────────────────────┬────────────┬────────────┬────────────┐" + resetAnsi);
+    System.out.println(boldAnsi + greenAnsi + "│ 번호 │ [V] │        항목명        │         메모         │  카테고리  │   증요도   │   작성일   │"+ resetAnsi);
+    System.out.println(boldAnsi + yellowAnsi + "└──────┴─────┴──────────────────────┴──────────────────────┴────────────┴────────────┴────────────┘"+ resetAnsi);
     String complete;
     for (Object obj : toDoList.toArray()) {
       ToDo toDo = (ToDo) obj;
