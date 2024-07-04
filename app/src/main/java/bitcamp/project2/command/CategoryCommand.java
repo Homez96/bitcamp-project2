@@ -83,31 +83,6 @@ public class CategoryCommand {
 
   }
 
-
-  public LinkedList getIncomeCategoryList() {
-    LinkedList incomeCategoryList = new LinkedList();
-
-    for (Object obj : categoryList.toArray()) {
-      Category category = (Category) obj;
-      if (category.equals("수입")) {
-        incomeCategoryList.add(category);
-      }
-    }
-    return incomeCategoryList;
-  }
-
-  public LinkedList getExpenseCategoryList() {
-    LinkedList expenseCategoryList = new LinkedList();
-
-    for (Object obj : categoryList.toArray()) {
-      Category category = (Category) obj;
-      if (category.equals("지출")) {
-        expenseCategoryList.add(category);
-      }
-    }
-    return expenseCategoryList;
-  }
-
   public LinkedList getCategoryList() {
     return this.categoryList;
   }

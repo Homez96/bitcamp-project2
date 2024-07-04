@@ -12,7 +12,7 @@ public class ToDo {
   private Date createdDate;
   private String memo;
   private String level;
-  private String category;
+  private Category category;
   private boolean complete;
 
   public ToDo() {
@@ -93,11 +93,11 @@ public class ToDo {
     this.level = level;
   }
 
-  public String getCategory() {
+  public Category getCategory() {
     return category;
   }
 
-  public void setCategory(String category) {
+  public void setCategory(Category category) {
     this.category = category;
   }
 }

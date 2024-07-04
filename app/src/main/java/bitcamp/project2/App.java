@@ -11,7 +11,7 @@ import bitcamp.project2.util.Prompt;
 public class App {
 
     CategoryCommand categoryCommand = new CategoryCommand();
-    ToDoCommand toDoCommand = new ToDoCommand();
+    ToDoCommand toDoCommand = new ToDoCommand(categoryCommand.getCategoryList());
 
 
     String[] mainMenus = new String[]{"할 일", "카테고리", "종료"};
