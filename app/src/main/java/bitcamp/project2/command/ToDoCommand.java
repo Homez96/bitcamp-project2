@@ -77,7 +77,7 @@ public class ToDoCommand {
   }
 
   private void choice() {
-    String answer = Prompt.input("완료 목록 보시겠습니까?");
+    String answer = Prompt.input("완료 목록 보시겠습니까?(y/n)");
     if (answer.equalsIgnoreCase("y")) {
       listToDo(allToDoList);
     } else {
@@ -91,7 +91,7 @@ public class ToDoCommand {
     while (true) {
       viewList(allToDoList);
 
-      String command = Prompt.input("체크 상태를 변경할 번호(0:이전 / C:달력)?");
+      String command = Prompt.input("[V] 표시를 변경할 번호(0:이전 / C:달력)?");
       if (command.equalsIgnoreCase("C")) {
         printCalender(new Date());
         continue;
@@ -263,7 +263,6 @@ public class ToDoCommand {
       System.out.printf("\033[33m│\033[0m %-4d \033[33m│\033[0m %-4s\033[33m│\033[0m %-20s \033[33m│\033[0m %-20s \033[33m│\033[0m %-6s \033[33m│\033[0m %-7s \033[33m│\033[0m %tY-%7$tm-%7$td \033[33m│\033[0m\n",
           toDo.getNo(), complete, toDo.getTitle(), toDo.getMemo(), "카테고리","중요도", toDo.getCreatedDate());
       System.out.println(yellowAnsi + "└──────┴─────┴──────────────────────┴──────────────────────┴────────────┴────────────┴────────────┘"+ resetAnsi);
-      //System.out.println(yellowAnsi + "├──────┼─────┼──────────────────────┼──────────────────────┼────────────┼────────────┼────────────┤"+ resetAnsi);
     }
     System.out.println();
   }
