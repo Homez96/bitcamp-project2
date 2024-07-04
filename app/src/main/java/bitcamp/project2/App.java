@@ -67,6 +67,8 @@ public class App {
         System.out.println("│               [To Do List]                    │");
         System.out.println("└───────────────────────────────────────────────┘");
 
+        System.out.println(boldAnsi + appTitle + resetAnsi);
+
         for (int i = 0; i < mainMenus.length; i++) {
             if (mainMenus[i].equals("할 일")) {
                 System.out.printf("%d. %s\n", (i + 1), mainMenus[i]);
